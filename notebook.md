@@ -125,5 +125,12 @@ GLSL 向量操作与语法特性
 
 
 核心 API 状态切换与生命周期对账
-
-    函数名 (API Name)核心状态机行为 (State Machine Action)执行频次策略 (Execution Frequency)glGenVertexArrays /glGenBuffers申请并分配资源句柄 ID初始化阶段： 仅执行一次。禁止写入渲染循环，否则引发显存泄漏。glBufferData向当前绑定的缓冲卡槽分配并复制显存数据初始化阶段： 一次性写入静态数据。仅在顶点动态更新时进入渲染循环。glVertexAttribPointer配置读取规则并与当前 GL_ARRAY_BUFFER 隐式绑定初始化阶段： 配合 VAO 录制一次。禁止写入渲染循环。glBindVertexArray激活或切换指定的 VAO，一键恢复其内部封装的所有特定状态渲染循环阶段： 每一帧执行，用于高速切换渲染目标对象的上下文状态。glUseProgram全局切换图形管线当前的着色器执行程序渲染循环阶段： 每一帧执行，用于切换当前物体的着色与光照算法。glDrawElements依据当前 VAO 内封装的 EBO 索引执行硬件加速绘制指令渲染循环阶段： 每一帧渲染流程的最终触发点 (Draw Call)。
+| 函数名 (API Name) | 核心状态机行为 (State Machine Action) | 执行频次策略 (Execution Frequency) |
+| :--- | :--- | :--- |
+| `glGenVertexArrays` /<br>`glGenBuffers` | 申请并分配资源句柄 ID | **初始化阶段：** 仅执行一次。禁止写入渲染循环，否则引发显存泄漏。 |
+| `glBufferData` | 向当前绑定的缓冲卡槽分配并复制显存数据 | **初始化阶段：** 一次性写入静态数据。仅在顶点动态更新时进入渲染循环。 |
+| `glVertexAttribPointer` | 配置读取规则并与当前 `GL_ARRAY_BUFFER` 隐式绑定 | **初始化阶段：** 配合 VAO 录制一次。禁止写入渲染循环。 |
+| `glBindVertexArray` | 激活或切换指定的 VAO，一键恢复其内部封装的所有特定状态 | **渲染循环阶段：** 每一帧执行，用于高速切换渲染目标对象的上下文状态。 |
+| `glUseProgram` | 全局切换图形管线当前的着色器执行程序 | **渲染循环阶段：** 每一帧执行，用于切换当前物体的着色与光照算法。 |
+| `glDrawElements` | 依据当前 VAO 内封装的 EBO 索引执行硬件加速绘制指令 | **渲染循环阶段：** 每一帧渲染流程的最终触发点 (**Draw Call**)。 |
+   
