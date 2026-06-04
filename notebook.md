@@ -35,7 +35,13 @@ VAO,VBO,EBO
 3.VAO：顶点数组对象 (Vertex Array Object)
     VAO 本身不存储任何实质性的顶点坐标或索引数据。它是一个状态容器，现代 OpenGL 强制要求在核心模式下必须使用 VAO 来存储和管理顶点特定阶段的所有状态配置。
 
-状态项 (State Item)数据类型/封装内容 (Data Type / Encapsulated Content)触发接口 (Trigger API)属性通道启用状态(Attribute Enable States)布尔数组 (GL_TRUE / GL_FALSE)glEnableVertexAttribArray顶点属性配置元数据(Attribute Specification)组件数量 (Size)、数据类型 (Type)、归一化标识 (Normalized)glVertexAttribPointer内存布局映射规则(Memory Layout Mapping)步长 (Stride)、起始偏移量 (Offset)glVertexAttribPointerVBO 句柄映射关联(VBO Explicit Association)记录当前属性通道对应的数据源 VBO IDglVertexAttribPointer(隐式读取 GL_ARRAY_BUFFER)专属索引缓冲绑定(Element Array Buffer Binding)记录当前激活的 EBO IDglBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ...)
+| 状态项 (State Item) | 数据类型/封装内容 (Data Type / Encapsulated Content) | 触发接口 (Trigger API) |
+| :--- | :--- | :--- |
+| **属性通道启用状态**<br>(Attribute Enable States) | 布尔数组 (`GL_TRUE` / `GL_FALSE`) | `glEnableVertexAttribArray` |
+| **顶点属性配置元数据**<br>(Attribute Specification) | 组件数量 (Size)、数据类型 (Type)、归一化标识 (Normalized) | `glVertexAttribPointer` |
+| **内存布局映射规则**<br>(Memory Layout Mapping) | 步长 (Stride)、起始偏移量 (Offset) | `glVertexAttribPointer` |
+| **VBO 句柄映射关联**<br>(VBO Explicit Association) | 记录当前属性通道对应的数据源 VBO ID | `glVertexAttribPointer`<br>(隐式读取 `GL_ARRAY_BUFFER`) |
+| **专属索引缓冲绑定**<br>(Element Array Buffer Binding) | 记录当前激活的 EBO ID | `glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ...)` |
 
 
    | 函数名称 | 它的本质属性 | 初始化阶段需要它吗？ | 每一帧渲染循环（while里）需要它吗？ |
