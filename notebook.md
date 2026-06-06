@@ -47,16 +47,6 @@ VAO,VBO,EBO
 
 
 
-   | 函数名称 | 它的本质属性 | 初始化阶段需要它吗？ | 每一帧渲染循环（while里）需要它吗？ |
-| :--- | :--- | :--- | :--- |
-| `glGen*`系列 | **资源申请** | **是的**（只申请一次） | ❌ **绝对不要**（否则显存每秒泄露60次） |
-| `glBufferData` | **数据灌注** | **是的**（一次性把模型运进显卡） | ❌ **不要**（除非你的模型顶点在实时跳舞） |
-| `glVertexAttribPointer` | **规则录制** | **是的**（配合 VAO 录制一次） | ❌ **不要**（VAO 已经帮你记住了） |
-| `glBindVertexArray` | **一键换档** | **是的**（开启录制） | **是的**（每一帧都要一键恢复特定物体的配置） |
-| `glUseProgram` | **衣服切换** | **可选** | **是的**（每一帧用来指定用哪个 Shader 画图） |
-| `glDrawArrays` / `glDrawElements` | **触发绘制 (Draw Call)** | ❌ **不需要** | **是的**（每一帧的临门一脚，真正命令显卡干活） |
-
-
     隐式绑定与解绑逻辑：
     VBO 的多对一隐式映射： 当执行 glVertexAttribPointer(index, ...) 时，状态机会读取当前挂载在 GL_ARRAY_BUFFER 上的 VBO 句柄，并将其硬编码记录在当前激活 VAO 的第 index 号属性卡槽中。因此，配置完成后解绑 GL_ARRAY_BUFFER（即执行 glBindBuffer(GL_ARRAY_BUFFER, 0)）是安全的，VAO 已完整保留了对该 VBO 的引用。
 
