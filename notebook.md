@@ -172,3 +172,27 @@ fv	函数需要一个float向量/数组作为它的值
     
 
 
+
+GLSL多属性交错布局
+    1.顶点数据交错布局
+    将单个顶点的所有属性数据在内存中连续排列，以提高 GPU 的高速缓存命中率。
+
+    2.GLSL着色器源码升级
+        顶点着色器：
+        增设一个输入属性通道以接收颜色数据，并通过自定义输出变量将其传递至管线下游。
+        #version 330 core
+        layout (location = 0) in vec3 aPos;   
+        layout (location = 1) in vec3 aColor; 
+
+        片段着色器：
+        接收来自上游经硬件插值后的颜色数据，并写入最终的颜色缓冲区。
+        #version 330 core
+        out vec4 FragColor;  
+        in vec3 ourColor;
+
+    3.顶点属性指针重新配置
+    单个顶点数据块 (Total Block = 24 字节)
+    ├─────────── Position (12 字节) ───────────┼──────────── Color (12 字节) ────────────┤
+    [  X  ][  Y  ][  Z  ]                     [  R  ][  G  ][  B  ]
+    ^                                         ^
+    Offset = 0                                Offset = 3 * sizeof(float)
